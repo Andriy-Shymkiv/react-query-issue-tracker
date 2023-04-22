@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { useIssuesList } from '../hooks/useIssuesList';
+import { IssueItem } from './IssueItem';
 
 export const IssuesList = () => {
   const { isLoading, data: issues } = useIssuesList();
@@ -10,11 +10,9 @@ export const IssuesList = () => {
       {isLoading ? (
         'Loading...'
       ) : (
-        <ul>
+        <ul className="issues-list">
           {issues?.map((issue) => (
-            <li key={issue.number}>
-              <Link to={`/issue/${issue.number}`}>{issue.title}</Link>
-            </li>
+            <IssueItem key={issue.id} issue={issue} />
           ))}
         </ul>
       )}
