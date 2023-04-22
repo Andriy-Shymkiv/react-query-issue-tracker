@@ -1,14 +1,23 @@
 import { Link } from 'react-router-dom';
+import { useIssuesList } from '../hooks/useIssuesList';
 
-export default function IssuesList() {
+export const IssuesList = () => {
+  const { isLoading, data: issues } = useIssuesList();
+
   return (
     <div>
-      <h1>Issues List</h1>
-      <ul>
-        <li>
-          <Link to="/issue/1">Issue 1</Link>
-        </li>
-      </ul>
+      <h2>Issues List</h2>
+      {isLoading ? (
+        'Loading...'
+      ) : (
+        <ul>
+          {issues?.map((issue) => (
+            <li key={issue.number}>
+              <Link to={`/issue/${issue.number}`}>{issue.title}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
-}
+};
