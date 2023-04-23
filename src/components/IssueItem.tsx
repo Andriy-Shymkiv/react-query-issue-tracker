@@ -1,13 +1,17 @@
 import { Issue } from '../types/Issues';
-import { GoIssueOpened, GoIssueClosed, GoComment } from 'react-icons/go';
 import { Link } from 'react-router-dom';
 import { relativeDate } from '../helpers/relativeDate';
+import { useUserData } from '../hooks/useUserData';
+import { GoIssueOpened, GoIssueClosed, GoComment } from 'react-icons/go';
 
 interface IssueItemProps {
   issue: Issue;
 }
 
 export const IssueItem: React.FC<IssueItemProps> = ({ issue }) => {
+  const { data: assigneeUser } = useUserData(issue.assignee);
+  const { data: createByUser } = useUserData(issue.createdBy);
+
   return (
     <li>
       <div>
@@ -28,10 +32,10 @@ export const IssueItem: React.FC<IssueItemProps> = ({ issue }) => {
         </span>
         <small>
           #{issue.number} opened {relativeDate(issue.createdDate)} by{' '}
-          {issue.createdBy}
+          {createByUser?.name}
         </small>
       </div>
-      {issue.assignee ? <div>{issue.assignee}</div> : null}
+      {issue.assignee ? <div>{assigneeUser?.name}</div> : null}
       <span className="comment-count">
         {issue.comments.length > 0 ? (
           <>
