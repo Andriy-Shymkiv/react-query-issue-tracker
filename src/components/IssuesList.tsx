@@ -1,8 +1,12 @@
 import { useIssuesList } from '../hooks/useIssuesList';
 import { IssueItem } from './IssueItem';
 
-export const IssuesList = () => {
-  const { isLoading, data: issues } = useIssuesList();
+interface IssuesListProps {
+  labels: string[];
+}
+
+export const IssuesList: React.FC<IssuesListProps> = ({ labels }) => {
+  const { isLoading, data: issues } = useIssuesList(labels);
 
   return (
     <div>

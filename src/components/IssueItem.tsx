@@ -1,15 +1,18 @@
-import { Issue } from '../types/Issues';
+import { Issue } from '../types/Issue';
 import { Link } from 'react-router-dom';
 import { relativeDate } from '../helpers/relativeDate';
 import { useUserData } from '../hooks/useUserData';
 import { GoIssueOpened, GoIssueClosed, GoComment } from 'react-icons/go';
+import { LabelItem } from './LabelItem';
 
 interface IssueItemProps {
   issue: Issue;
 }
 
 export const IssueItem: React.FC<IssueItemProps> = ({ issue }) => {
-  const { data: assigneeUser } = useUserData(issue.assignee);
+  const { data: assigneeUser, isSuccess: assigneeUserIsSuccess } = useUserData(
+    issue.assignee
+  );
   const { data: createByUser } = useUserData(issue.createdBy);
 
   return (
@@ -25,9 +28,7 @@ export const IssueItem: React.FC<IssueItemProps> = ({ issue }) => {
         <span>
           <Link to={`/issue/${issue.number}`}>{issue.title}</Link>
           {issue.labels.map((label) => (
-            <span key={label} className={'label red'}>
-              {label}
-            </span>
+            <LabelItem key={label} label={label} />
           ))}
         </span>
         <small>
@@ -35,7 +36,13 @@ export const IssueItem: React.FC<IssueItemProps> = ({ issue }) => {
           {createByUser?.name}
         </small>
       </div>
-      {issue.assignee ? <div>{assigneeUser?.name}</div> : null}
+      {issue.assignee ? (
+        <img
+          src={assigneeUserIsSuccess ? assigneeUser.profilePictureUrl : ''}
+          className="assigned-to"
+          alt={`assigned to ${assigneeUser?.name}`}
+        />
+      ) : null}
       <span className="comment-count">
         {issue.comments.length > 0 ? (
           <>
