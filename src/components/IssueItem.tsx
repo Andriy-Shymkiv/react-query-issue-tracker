@@ -18,7 +18,7 @@ export const IssueItem: React.FC<IssueItemProps> = ({ issue }) => {
   return (
     <li>
       <div>
-        {status === 'done' || status === 'canceled' ? (
+        {issue.status === 'done' || issue.status === 'canceled' ? (
           <GoIssueClosed style={{ color: 'red' }} />
         ) : (
           <GoIssueOpened style={{ color: 'green' }} />

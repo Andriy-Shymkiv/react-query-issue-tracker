@@ -3,7 +3,7 @@ interface StatusSelectProps {
   onStatusChange: (status: string) => void;
 }
 
-const possibleStatuses = [
+export const possibleStatuses = [
   {
     id: 'backlog',
     label: 'Backlog',
