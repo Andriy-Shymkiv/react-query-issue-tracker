@@ -3,10 +3,11 @@ import { IssueItem } from './IssueItem';
 
 interface IssuesListProps {
   labels: string[];
+  status: string;
 }
 
-export const IssuesList: React.FC<IssuesListProps> = ({ labels }) => {
-  const { isLoading, data: issues } = useIssuesList(labels);
+export const IssuesList: React.FC<IssuesListProps> = ({ labels, status }) => {
+  const { isLoading, data: issues } = useIssuesList(labels, status);
 
   return (
     <div>

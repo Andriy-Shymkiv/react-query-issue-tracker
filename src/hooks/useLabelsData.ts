@@ -1,8 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { Label } from '../types/Label';
 
-export const useLabelsData = () => {
-  const fetchLabels = async () => (await fetch('/api/labels')).json();
+const fetchLabels = async () => {
+  const res = await fetch('/api/labels');
 
-  return useQuery<Label[]>(['labels'], fetchLabels);
+  return res.json();
+};
+
+export const constructLabelsCacheKey = () => ['labels'];
+
+export const useLabelsData = () => {
+  return useQuery<Label[]>(constructLabelsCacheKey(), fetchLabels);
 };

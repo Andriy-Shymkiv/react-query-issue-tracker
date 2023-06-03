@@ -1,8 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { User } from '../types/User';
 
-export const useUserData = (userId: string) => {
-  const fetchUser = async () => (await fetch(`/api/users/${userId}`)).json();
+const fetchUser = async (userId: string) => {
+  const res = await fetch(`/api/users/${userId}`);
 
-  return useQuery<User>(['user', userId], fetchUser);
+  return res.json();
+};
+
+export const constructUserCacheKey = (userId: string) => ['user', userId];
+
+export const useUserData = (userId: string) => {
+  return useQuery<User>(constructUserCacheKey(userId), () => fetchUser(userId));
 };
